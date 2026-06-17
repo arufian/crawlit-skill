@@ -1,0 +1,28 @@
+.DS_Store
+*.log
+*.tmp
+*.bak
+*.zip
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# Agent/runtime output
+crawlit-output/
+output/
+.claude/settings.local.json
+.codex/
+
+# Dependency/build caches if this repo grows tooling later
+node_modules/
+dist/
+build/
+coverage/
+.cache/

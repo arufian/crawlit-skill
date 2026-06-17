@@ -1,0 +1,20 @@
+{
+  "name": "crawlit-skills",
+  "interface": {
+    "displayName": "Crawlit Skills"
+  },
+  "plugins": [
+    {
+      "name": "crawlit",
+      "source": {
+        "source": "local",
+        "path": "./plugins/crawlit"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

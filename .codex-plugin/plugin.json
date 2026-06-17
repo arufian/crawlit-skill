@@ -1,0 +1,41 @@
+{
+  "name": "crawlit",
+  "version": "0.1.0",
+  "description": "Use a local Crawlit Firecrawl-compatible API for scraping, crawling, and mapping websites from Codex.",
+  "author": {
+    "name": "arufian",
+    "email": "arufian703@gmail.com",
+    "url": "https://github.com/arufian"
+  },
+  "homepage": "https://github.com/arufian/crawlit-skill",
+  "repository": "https://github.com/arufian/crawlit-skill",
+  "license": "MIT",
+  "keywords": [
+    "crawlit",
+    "firecrawl",
+    "scraping",
+    "crawl",
+    "map",
+    "web"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Crawlit",
+    "shortDescription": "Local web scrape, crawl, and map skill.",
+    "longDescription": "Routes web content tasks through a local Crawlit Firecrawl-compatible API for single-page scraping, multi-page crawling, and URL discovery.",
+    "developerName": "arufian",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/arufian/crawlit-skill",
+    "defaultPrompt": [
+      "Scrape this URL with Crawlit",
+      "Map pages on this website",
+      "Crawl these docs locally"
+    ],
+    "brandColor": "#0F766E",
+    "screenshots": []
+  }
+}

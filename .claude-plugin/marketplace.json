@@ -1,0 +1,14 @@
+{
+  "name": "crawlit-skills",
+  "description": "Installable Claude Code plugins for Crawlit-powered web scraping, crawling, and site mapping.",
+  "owner": {
+    "name": "arufian"
+  },
+  "plugins": [
+    {
+      "name": "crawlit",
+      "source": "./"
+    }
+  ]
+}
+
