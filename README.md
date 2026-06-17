@@ -2,7 +2,7 @@
 
 ![Crawlit README banner](./assets/crawlit-readme-banner.png)
 
-AI agent skill pack for Crawlit, a local Firecrawl-compatible scraper API. It gives coding agents a consistent workflow for single-page scraping, multi-page crawling, and URL discovery through `http://localhost:3000`.
+AI agent skill pack for [Crawlit](https://github.com/arufian/Crawlit), a local Firecrawl-compatible scraper API. It gives coding agents a consistent workflow for single-page scraping, multi-page crawling, and URL discovery through `http://localhost:3000`.
 
 ## Skills
 
@@ -15,7 +15,7 @@ AI agent skill pack for Crawlit, a local Firecrawl-compatible scraper API. It gi
 
 ## Prerequisites
 
-- Crawlit running locally
+- [Crawlit](https://github.com/arufian/Crawlit) running locally
 - API reachable at `http://localhost:3000`
 - `curl` and `jq` available to the agent runtime
 
