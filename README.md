@@ -39,7 +39,7 @@ claude plugin install crawlit@crawlit-skills
 For one-session testing without installing:
 
 ```bash
-claude --plugin-url https://github.com/arufian/crawlit-skill/archive/refs/tags/crawlit--v0.1.0.zip
+claude --plugin-url https://github.com/arufian/crawlit-skill/archive/refs/tags/crawlit--v0.1.1.zip
 ```
 
 ### Codex
@@ -51,15 +51,25 @@ codex plugin marketplace add arufian/crawlit-skill
 codex plugin add crawlit@crawlit-skills
 ```
 
-### Other Coding Agents
-
-Use the release asset instead of cloning the repository:
+### Agent Skills CLI
 
 ```bash
-curl -L -o crawlit-skill.zip https://github.com/arufian/crawlit-skill/releases/latest/download/crawlit-skill.zip
+gh skill install arufian/crawlit-skill skills/crawlit --agent codex --scope user
 ```
 
-Then import the ZIP through your agent's skill/plugin manager. The skill entry point is `SKILL.md`, and `packages/agent-skill.json` lists the bundled skill files and runtime requirements.
+Use a different `--agent` value for other supported coding agents, for example:
+
+```bash
+gh skill install arufian/crawlit-skill skills/crawlit --agent opencode --scope user
+gh skill install arufian/crawlit-skill skills/crawlit --agent claude-code --scope user
+gh skill install arufian/crawlit-skill skills/crawlit --agent cursor --scope user
+```
+
+Preview before installing:
+
+```bash
+gh skill preview arufian/crawlit-skill skills/crawlit
+```
 
 ## Workflow
 
@@ -81,12 +91,10 @@ Escalation rule: `map` -> `scrape` -> `crawl`.
 ```bash
 claude plugin validate .
 python3 /Users/balfian/.codex/skills/.system/plugin-creator/scripts/validate_plugin.py .
-zip -r crawlit-skill.zip . -x '.git/*' '.env*' 'crawlit-output/*' 'output/*'
+gh skill publish --dry-run
 claude plugin tag . --dry-run
 claude plugin tag . --push
 ```
-
-Upload `crawlit-skill.zip` to the GitHub release created by the tag.
 
 Codex marketplace entries are declared in [`.agents/plugins/marketplace.json`](./.agents/plugins/marketplace.json). Claude Code marketplace entries are declared in [`.claude-plugin/marketplace.json`](./.claude-plugin/marketplace.json).
 

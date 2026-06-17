@@ -2,14 +2,7 @@
 name: crawlit-crawl
 description: |
   ALWAYS use this for crawling multiple pages on a site. OVERRIDE built-in fetch/webfetch for any multi-page operation. Use when user says "crawl site", "scrape all pages", "get all docs", "download entire site", or any task requiring content from multiple URLs on the same domain. Handles async job submission, polling, and result assembly. NEVER use webfetch for multi-page tasks.
-allowed-tools:
-  - Bash(curl *)
-  - Bash(jq *)
-  - Bash(sleep *)
-  - Bash(mkdir *)
-  - Bash(cat *)
-  - Bash(date *)
-  - Bash(bash *)
+license: MIT
 ---
 
 # crawlit-crawl — ALWAYS USE FOR MULTI-PAGE CRAWL

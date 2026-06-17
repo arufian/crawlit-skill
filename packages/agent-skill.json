@@ -1,6 +1,6 @@
 {
   "name": "crawlit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Agent skill pack for local Crawlit scraping, crawling, and mapping.",
   "entry": "SKILL.md",
   "skills": [
@@ -18,9 +18,8 @@
     "service": "Crawlit API at http://localhost:3000"
   },
   "install": {
-    "archive": "GitHub Release asset crawlit-skill.zip",
     "claudeCode": "claude plugin marketplace add arufian/crawlit-skill && claude plugin install crawlit@crawlit-skills",
-    "codex": "codex plugin marketplace add arufian/crawlit-skill && codex plugin add crawlit@crawlit-skills"
+    "codex": "codex plugin marketplace add arufian/crawlit-skill && codex plugin add crawlit@crawlit-skills",
+    "agentSkillsCli": "gh skill install arufian/crawlit-skill skills/crawlit --agent codex --scope user"
   }
 }
-

@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
   "name": "crawlit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Use a local Crawlit Firecrawl-compatible API for scraping, crawling, and mapping websites from Claude Code.",
   "author": {
     "name": "arufian",
@@ -11,4 +11,3 @@
     "./"
   ]
 }
-
