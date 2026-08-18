@@ -26,6 +26,15 @@ Quick health check:
 scripts/health-check.sh
 ```
 
+Start Crawlit from its project directory:
+
+```bash
+scripts/start-server.sh              # start existing image
+scripts/start-server.sh --build      # rebuild image, then start
+```
+
+Source the script to call the function from Bash: `source scripts/start-server.sh && start_crawlit_server`. Set `CRAWLIT_BASE_URL` and `CRAWLIT_START_TIMEOUT` to override health-check URL and wait timeout.
+
 ## Install Without Cloning
 
 ### Claude Code
