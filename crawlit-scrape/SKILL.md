@@ -26,13 +26,29 @@ curl -sf -X POST "http://localhost:3000/v1/scrape" \
 
 ## Mode Selection
 
+The default `auto` mode fetches over plain HTTP and switches to the stealth browser by itself when the page is a JS app shell or a bot wall. You rarely need to set `mode`.
+
 | Situation | Mode |
 |---|---|
-| Default — fast, no JS | `"mode":"http"` |
-| SPA / React / Vue app | `"mode":"browser"` |
-| User says "rendered", "dynamic", "JS" | `"mode":"browser"` |
-| http returns near-empty content | Retry with `"mode":"browser"` |
-| Need to click/scroll/type first | `"mode":"browser"` + `actions` |
+| Default — let Crawlit decide | omit `mode` (`"auto"`) |
+| Must never launch a browser (fastest) | `"mode":"http"` |
+| Content still missing in auto | `"mode":"browser"` + `"waitFor":2000` or `"waitForSelector":"..."` |
+| Need to click/scroll/type first | `actions` (implies browser) |
+
+The `x-crawlit-source` response header says what was used: `http`, `browser`, or `cache`.
+
+## Many URLs at Once
+
+Use `/v1/batch/scrape` instead of looping — one request, up to 100 URLs scraped in parallel. Takes every scrape option.
+
+```bash
+curl -sf -X POST "http://localhost:3000/v1/batch/scrape" \
+  -H "Content-Type: application/json" \
+  -d '{"urls":["https://example.com","https://books.toscrape.com/"],"formats":["markdown"]}' \
+  | jq -r '.data[] | "## \(.url)\n\(.markdown // ("ERROR: " + .error))\n"'
+```
+
+Failed URLs come back with `success: false` and `error`; the others still succeed.
 
 ## All Options
 
@@ -41,9 +57,10 @@ curl -sf -X POST "http://localhost:3000/v1/scrape" \
 | `url` | string | required | Target URL |
 | `formats` | array | `["markdown"]` | `markdown`, `html`, `links`, `rawHtml` |
 | `onlyMainContent` | boolean | `true` | Strip nav/ads via Readability |
-| `mode` | string | `"http"` | `http` or `browser` |
-| `waitFor` | number | — | ms to wait after page load (browser mode) |
-| `actions` | array | — | Click/scroll/type sequence (browser mode) |
+| `mode` | string | `"auto"` | `auto`, `http`, or `browser` |
+| `waitFor` | number | — | ms to wait after page load (implies browser) |
+| `waitForSelector` | string | — | CSS selector to wait for (implies browser) |
+| `actions` | array | — | Click/scroll/type sequence (implies browser) |
 | `proxy` | string | — | Proxy URL `http://user:pass@host:port` |
 | `save` | boolean | `false` | Save markdown to server's `./output/` dir |
 | `extract` | object | — | LLM structured extraction (see below) |

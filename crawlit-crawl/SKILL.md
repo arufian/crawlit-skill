@@ -103,7 +103,9 @@ Removes queued (not-yet-started) jobs. Already-running jobs finish their current
 | `maxDepth` | number | `3` | Max link depth (1–10) |
 | `limit` | number | `100` | Max pages total (1–10000) |
 | `allowedDomains` | array | `[]` | Restrict to domains (default: seed domain only) |
-| `mode` | string | `"http"` | `http` or `browser` |
+| `includePaths` | array | — | Only follow paths matching these regexes, e.g. `["^/docs/"]` |
+| `excludePaths` | array | — | Skip paths matching these regexes, e.g. `["^/blog/", "/tag/"]` |
+| `mode` | string | `"auto"` | `auto` (HTTP, browser when needed), `http`, or `browser` |
 | `formats` | array | `["markdown"]` | `markdown`, `html`, `links`, `rawHtml` |
 | `onlyMainContent` | boolean | `true` | Strip nav/ads via Readability |
 | `save` | boolean | `false` | Save each page to server `./output/` |

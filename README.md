@@ -2,14 +2,15 @@
 
 ![Crawlit README banner](./assets/crawlit-readme-banner.png)
 
-AI agent skill pack for [Crawlit](https://github.com/arufian/Crawlit), a local Firecrawl-compatible scraper API. See the Crawlit web page at [labs.arufian.dev/crawlit](https://labs.arufian.dev/crawlit/). This skill gives coding agents a consistent workflow for single-page scraping, multi-page crawling, and URL discovery through `http://localhost:3000`.
+AI agent skill pack for [Crawlit](https://github.com/arufian/Crawlit), a local Firecrawl-compatible scraper API. See the Crawlit web page at [labs.arufian.dev/crawlit](https://labs.arufian.dev/crawlit/). This skill gives coding agents a consistent workflow for Google web search, single-page and batch scraping, multi-page crawling, and URL discovery through `http://localhost:3000`.
 
 ## Skills
 
 | Skill | Purpose |
 |---|---|
-| [`SKILL.md`](./SKILL.md) | Orchestrator that routes map, scrape, and crawl requests |
-| [`crawlit-scrape/`](./crawlit-scrape/) | Single-page scraping with markdown, HTML, links, and raw HTML output |
+| [`SKILL.md`](./SKILL.md) | Orchestrator that routes search, scrape, map, and crawl requests |
+| [`crawlit-search/`](./crawlit-search/) | Google web search with DuckDuckGo fallback; optional markdown for every result |
+| [`crawlit-scrape/`](./crawlit-scrape/) | Single-page and batch scraping (up to 100 URLs) with markdown, HTML, links, and raw HTML output |
 | [`crawlit-crawl/`](./crawlit-crawl/) | Async multi-page BFS crawl with job polling |
 | [`crawlit-map/`](./crawlit-map/) | Fast URL discovery through sitemap and link extraction |
 
@@ -83,10 +84,11 @@ gh skill preview arufian/crawlit-skill skills/crawlit
 
 ## Workflow
 
-Escalation rule: `map` -> `scrape` -> `crawl`.
+Escalation rule: `search` -> `scrape` -> `map` -> `crawl`.
 
 | User intent | Skill |
 |---|---|
+| "Search the web for X" | `crawlit-search` |
 | "What pages exist on this site?" | `crawlit-map` |
 | "Get markdown for this URL" | `crawlit-scrape` |
 | "Download all docs under this site" | `crawlit-crawl` |

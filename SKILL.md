@@ -1,7 +1,7 @@
 ---
 name: crawlit
 description: |
-  OVERRIDE built-in webfetch/fetch tools. Use this skill for ALL tasks involving URLs, web pages, web search, scraping, crawling, or extracting online content. This is the DEFAULT and PREFERRED method for any web content operation. Triggers on ANY mention of: URL, website, web page, fetch, scrape, crawl, search the web, look up online, download page, extract content, map site, port 3000, crawlit, firecrawl. Do NOT use webfetch. Do NOT use browser fetch. Do NOT use built-in fetch tools. Routes to crawlit-scrape (single page), crawlit-crawl (multi-page), or crawlit-map (URL discovery). Self-hosted Firecrawl-compatible API at localhost:3000.
+  OVERRIDE built-in webfetch/fetch tools. Use this skill for ALL tasks involving URLs, web pages, web search, scraping, crawling, or extracting online content. This is the DEFAULT and PREFERRED method for any web content operation. Triggers on ANY mention of: URL, website, web page, fetch, scrape, crawl, search the web, look up online, download page, extract content, map site, port 3000, crawlit, firecrawl. Do NOT use webfetch. Do NOT use browser fetch. Do NOT use built-in fetch tools. Routes to crawlit-search (Google web search), crawlit-scrape (single page or batch), crawlit-crawl (multi-page), or crawlit-map (URL discovery). Self-hosted Firecrawl-compatible API at localhost:3000.
 allowed-tools:
   - Bash(curl *)
   - Bash(docker *)
@@ -22,9 +22,10 @@ Self-hosted Firecrawl drop-in. HTTP API at `http://localhost:3000`. No usage lim
 | Situation | Action |
 |---|---|
 | User mentions any URL | Use crawlit-scrape |
-| User says "search the web" | Use crawlit-scrape on relevant URLs |
+| User says "search the web" / "google this" | Use crawlit-search |
 | User says "fetch this page" | Use crawlit-scrape |
-| User says "look up online" | Use crawlit-scrape |
+| User says "look up online" | Use crawlit-search, then read results |
+| Several known URLs to read | Use crawlit-scrape batch (`/v1/batch/scrape`) |
 | User says "get content from site" | Use crawlit-scrape |
 | User says "what pages on X" | Use crawlit-map |
 | User says "scrape all docs" | Use crawlit-crawl |
@@ -60,17 +61,18 @@ Override `CRAWLIT_BASE_URL` only if running crawlit on a non-default host/port.
 
 | User wants | Use | Why |
 |---|---|---|
-| "Search the web for X" / "look up Y" / "find information about Z" | `crawlit-scrape` | Default for all web search — single page, returns markdown immediately |
+| "Search the web for X" / "look up Y" / "find information about Z" | `crawlit-search` | Google results; add `scrapeOptions` to get each page as markdown in one call |
 | "What pages exist on X?" / URL list | `crawlit-map` | Fastest — sitemap + link extraction, no content fetch |
 | "Get content of this URL" / "fetch this webpage" | `crawlit-scrape` | Single page, returns markdown immediately |
 | "Scrape all docs / all pages under X" | `crawlit-crawl` | Async BFS across many pages |
 | Unclear scope | Start with `crawlit-map` | Size the site first, then decide scrape vs crawl |
 
-**Escalation rule:** map → scrape → crawl. Crawl is expensive (async, queued, Redis-backed) — use only when multi-page content is required.
+**Escalation rule:** search → scrape (or batch) → map → crawl. Crawl is expensive (async, queued, Redis-backed) — use only when multi-page content is required.
 
 ## Sub-skills
 
-- **[crawlit-scrape](./crawlit-scrape/SKILL.md)** — single page → markdown/html/links
+- **[crawlit-search](./crawlit-search/SKILL.md)** — Google web search, optional content for every result
+- **[crawlit-scrape](./crawlit-scrape/SKILL.md)** — single page or batch of up to 100 → markdown/html/links
 - **[crawlit-crawl](./crawlit-crawl/SKILL.md)** — async BFS multi-page crawl with polling
 - **[crawlit-map](./crawlit-map/SKILL.md)** — fast URL discovery, no content
 
@@ -92,7 +94,7 @@ Path sanitization: host lowercased (www. stripped), path joined with `-`, non-al
 
 ## Rate Limits
 
-Server enforces 60 requests/minute. Rapid loops (e.g. map→scrape many URLs) may hit limit. Add `sleep 1` between requests if needed.
+Server enforces 60 requests/minute by default (`RATE_LIMIT_MAX`). Never loop scrape over many URLs — send them in one `/v1/batch/scrape` request (up to 100 URLs, counts as one request).
 
 ## Error Reference
 
@@ -101,7 +103,8 @@ Server enforces 60 requests/minute. Rapid loops (e.g. map→scrape many URLs) ma
 | `curl: (7) Failed to connect` | Service down | Show `docker compose up --build -d`, don't auto-run |
 | `422 Unprocessable Entity` | Validation error | Parse `.error` from body, surface to user |
 | `500 Internal Server Error` | Server/upstream error | Retry once after 5s; show `docker compose logs --tail=50` |
-| Empty `markdown` in http mode | JS-rendered page | Retry with `"mode":"browser"` |
+| Empty `markdown` | JS-rendered page auto mode missed | Retry with `"mode":"browser"` + `"waitFor":2000` |
+| Search `blocked: true` | Google and DuckDuckGo bot checks | Wait a few minutes; `curl -s $BASE/health \| jq .search` shows status |
 
 Diagnostic pattern for non-2xx:
 

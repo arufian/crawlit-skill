@@ -15,7 +15,7 @@ allowed-tools:
 
 **CRITICAL**: For ANY task needing a list of URLs from a site, USE THIS instead of webfetch or manual scraping.
 
-Fast URL discovery. No content fetched. Tries `sitemap.xml` first, falls back to link extraction. Up to 50,000 URLs.
+Fast URL discovery. No content fetched. Reads sitemaps (including those listed in robots.txt) and the seed page's links in parallel. Up to 50,000 URLs.
 
 ## Quick Start
 
@@ -35,6 +35,8 @@ Returns: `{"success":true,"links":[...],"total":342}`
 | `url` | string | required | Seed URL |
 | `limit` | number | `5000` | Max URLs (1–50000) |
 | `includeSubdomains` | boolean | `false` | Also return `*.seed-domain.com` URLs |
+| `search` | string | — | Only URLs containing this text, e.g. `"blog"` or `"/docs/"` |
+| `ignoreSitemap` | boolean | `false` | Use only the seed page's links |
 
 ## Common Patterns
 

@@ -1,10 +1,11 @@
 {
   "name": "crawlit",
-  "version": "0.1.1",
-  "description": "Agent skill pack for local Crawlit scraping, crawling, and mapping.",
+  "version": "0.2.0",
+  "description": "Agent skill pack for local Crawlit: Google web search, scraping, batch scraping, crawling, and mapping.",
   "entry": "SKILL.md",
   "skills": [
     "SKILL.md",
+    "crawlit-search/SKILL.md",
     "crawlit-scrape/SKILL.md",
     "crawlit-crawl/SKILL.md",
     "crawlit-map/SKILL.md"
